@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace workiom_test_project.Models
 {
-    public class Company : BaseModel
+    public class Company : Document
     {
         [BsonElement("Name")]
         public string Name { get; set; }

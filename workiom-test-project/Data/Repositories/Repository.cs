@@ -11,7 +11,7 @@ using workiom_test_project.Models;
 
 namespace workiom_test_project.Data.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : BaseModel
+    public class Repository<T> : IRepository<T> where T : IDocument
     {
         protected IDbSettings Settings { get; private set; }
 

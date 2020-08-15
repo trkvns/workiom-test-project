@@ -6,7 +6,7 @@ using workiom_test_project.Models;
 
 namespace workiom_test_project.Data.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : IDocument
     {
         Task<List<T>> GetListAsync();
         Task<T> GetByIdAsync(string id);
