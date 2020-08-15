@@ -9,5 +9,6 @@ namespace workiom_test_project.Models
     {
         public string name { get; set; }
         public string type { get; set; }
+        public dynamic value { get; set; }
     }
 }
