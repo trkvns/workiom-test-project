@@ -18,7 +18,7 @@ namespace workiom_test_project.Data
 
         public Db(IDbSettings settings)
         {
-            if (Settings != null)
+            if (settings != null)
             {
                 Settings = settings;
             }
