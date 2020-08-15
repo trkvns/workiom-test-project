@@ -24,6 +24,22 @@ namespace workiom_test_project.Controllers
             Logger = logger;
         }
 
+        [HttpPost("add-column")]
+        public async Task<IActionResult> AddColumn(NewColumn model)
+        {
+            try
+            {
+                if (await Db.Companies.AddColumnAsync(model))
+                    return NoContent();
+
+                return Conflict();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         [HttpGet("{id:length(24)}", Name = "GetCompany")]
         public async Task<IActionResult> GetCompany(string id)
         {

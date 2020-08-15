@@ -8,5 +8,6 @@ namespace workiom_test_project.Data.Interfaces
 {
     public interface ICompanyRepository : IRepository<Company>
     {
+        Task<bool> AddColumnAsync(NewColumn item);
     }
 }

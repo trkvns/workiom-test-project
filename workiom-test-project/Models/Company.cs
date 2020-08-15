@@ -12,5 +12,7 @@ namespace workiom_test_project.Models
         [BsonElement("Name")]
         public string Name { get; set; }
         public int EmployeeCount { get; set; }
+        [BsonExtraElements]
+        public BsonDocument AdditionalData { get; set; }
     }
 }

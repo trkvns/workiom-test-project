@@ -15,7 +15,7 @@ namespace workiom_test_project.Data.Repositories
     {
         protected IDbSettings Settings { get; private set; }
 
-        private readonly IMongoCollection<T> mongoCollection;
+        protected readonly IMongoCollection<T> mongoCollection;
 
         public Repository(string mongoDBConnectionString, string dbName, string collectionName)
         {
