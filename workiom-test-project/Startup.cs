@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using workiom_test_project.Models;
 
 namespace workiom_test_project
 {
@@ -24,6 +26,12 @@ namespace workiom_test_project
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // requires using Microsoft.Extensions.Options
+            services.Configure<DbSettings>(
+                Configuration.GetSection(nameof(DbSettings)));
+
+            services.AddSingleton<DbSettings>(sp =>
+                sp.GetRequiredService<IOptions<DbSettings>>().Value);
             services.AddControllers();
         }
 
