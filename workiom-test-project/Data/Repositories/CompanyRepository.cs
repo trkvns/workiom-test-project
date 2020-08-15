@@ -14,7 +14,7 @@ namespace workiom_test_project.Data.Repositories
     {
         public CompanyRepository(IDbSettings s) : base(s.ConnectionString, s.DatabaseName, s.CompaniesCollectionName)
         {
-
+            SetIndexes();
         }
 
         public async Task<bool> AddColumnAsync(NewColumn item)
@@ -22,6 +22,21 @@ namespace workiom_test_project.Data.Repositories
             var filterDefinition = Builders<Company>.Filter.Empty;
             var update = new BsonDocument("$set", new BsonDocument(item.name, item.type.ToDefaultValue()));
             return (await mongoCollection.UpdateManyAsync(filterDefinition, update)).ModifiedCount > 0;
+        }
+        private void SetIndexes()
+        {
+            var builder = Builders<Company>.IndexKeys;
+            var indexOptions = new CreateIndexOptions { Name = "NameUniqueIndex", Unique = true };
+            var indexModel = new CreateIndexModel<Company>(builder.Ascending(x => x.Name), indexOptions);
+            try
+            {
+                mongoCollection.Indexes.CreateOne(indexModel);
+            }
+            catch (Exception)
+            {
+                mongoCollection.Indexes.DropOne(indexOptions.Name);
+                mongoCollection.Indexes.CreateOne(indexModel);
+            }
         }
     }
 }
