@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using workiom_test_project.Models;
+
+namespace workiom_test_project.Data.Interfaces
+{
+    public interface IRepository<T> where T : class
+    {
+        Task<List<T>> GetListAsync();
+        Task<T> GetByIdAsync(string id);
+        Task<T> CreateAsync(T model);
+        Task<bool> UpdateAsync(string id, T model);
+        Task<bool> DeleteAsync(T model);
+        Task<bool> DeleteAsync(string id);
+    }
+}
