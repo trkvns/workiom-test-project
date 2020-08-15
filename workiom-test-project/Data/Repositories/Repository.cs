@@ -43,8 +43,8 @@ namespace workiom_test_project.Data.Repositories
 
         public virtual async Task<bool> UpdateAsync(string id, T model)
         {
-            var docId = new ObjectId(id);
-            return (await mongoCollection.ReplaceOneAsync(m => m.Id == docId, model)).ModifiedCount > 0;
+            model.Id = new ObjectId(id);
+            return (await mongoCollection.ReplaceOneAsync(m => m.Id == model.Id, model)).ModifiedCount > 0;
         }
 
         public virtual async Task<bool> DeleteAsync(T model)

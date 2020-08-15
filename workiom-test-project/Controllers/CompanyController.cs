@@ -81,7 +81,7 @@ namespace workiom_test_project.Controllers
         {
             try
             {
-                var item = Db.Companies.GetByIdAsync(id);
+                var item = await Db.Companies.GetByIdAsync(id);
 
                 if (item == null)
                     return NotFound();

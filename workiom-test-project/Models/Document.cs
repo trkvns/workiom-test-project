@@ -13,13 +13,11 @@ namespace workiom_test_project.Models
         [BsonRepresentation(BsonType.String)]
         ObjectId Id { get; set; }
         DateTime CreatedAt { get; }
-        string DocumentId { get; }
     }
 
     public abstract class Document : IDocument
     {
         public ObjectId Id { get; set; }
         public DateTime CreatedAt => Id.CreationTime;
-        public string DocumentId => Id.ToString();
     }
 }
