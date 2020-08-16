@@ -20,16 +20,22 @@ namespace workiom_test_project.Data.Repositories
         private void SetIndexes()
         {
             var builder = Builders<Company>.IndexKeys;
-            var indexOptions = new CreateIndexOptions { Name = "NameUniqueIndex", Unique = true };
-            var indexModel = new CreateIndexModel<Company>(builder.Ascending(x => x.Name), indexOptions);
+            var indexModels = new List<CreateIndexModel<Company>>();
+
+            var textIndex = new CreateIndexOptions() { Name = "Text" };
+            var nameUniqueIndex = new CreateIndexOptions() { Name = "NameUniqueIndex", Unique = true };
+
+            indexModels.Add(new CreateIndexModel<Company>(builder.Text("$**"), textIndex));
+            indexModels.Add(new CreateIndexModel<Company>(builder.Ascending(x => x.Name), nameUniqueIndex));
+
             try
             {
-                mongoCollection.Indexes.CreateOne(indexModel);
+                mongoCollection.Indexes.CreateMany(indexModels);
             }
             catch (Exception)
             {
-                mongoCollection.Indexes.DropOne(indexOptions.Name);
-                mongoCollection.Indexes.CreateOne(indexModel);
+                mongoCollection.Indexes.DropAll();
+                mongoCollection.Indexes.CreateMany(indexModels);
             }
         }
     }
