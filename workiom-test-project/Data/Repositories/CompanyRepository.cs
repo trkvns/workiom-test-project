@@ -17,13 +17,6 @@ namespace workiom_test_project.Data.Repositories
             SetIndexes();
         }
 
-        public async Task<bool> AddColumnAsync(NewColumn item)
-        {
-            var filterDefinition = Builders<Company>.Filter.Empty;
-            var update = new BsonDocument("$set", new BsonDocument(item.name, item.value ?? item.type.ToDefaultValue()));
-            return (await mongoCollection.UpdateManyAsync(filterDefinition, update)).ModifiedCount > 0;
-        }
-
         private void SetIndexes()
         {
             var builder = Builders<Company>.IndexKeys;
