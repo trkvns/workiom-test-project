@@ -16,5 +16,6 @@ namespace workiom_test_project.Data.Interfaces
         Task<bool> DeleteAsync(T model);
         Task<bool> DeleteAsync(string id);
         Task<bool> AddColumnAsync(NewColumn item);
+        Task<List<T>> SearchAsync(Dictionary<string, object> queries);
     }
 }

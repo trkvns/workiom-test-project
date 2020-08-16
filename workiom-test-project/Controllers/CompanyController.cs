@@ -40,6 +40,26 @@ namespace workiom_test_project.Controllers
             }
         }
 
+        [HttpPost("search")]
+        public async Task<IActionResult> Search(Dictionary<string, object> queries)
+        {
+            try
+            {
+                var items = await Db.Companies.SearchAsync(queries);
+
+                if (items != null)
+                {
+                    return Ok(items);
+                }
+
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         [HttpGet("{id:length(24)}", Name = "GetCompany")]
         public async Task<IActionResult> GetCompany(string id)
         {

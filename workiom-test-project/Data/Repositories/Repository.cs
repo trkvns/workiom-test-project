@@ -72,5 +72,19 @@ namespace workiom_test_project.Data.Repositories
             var update = new BsonDocument("$set", new BsonDocument(item.name, item.value ?? item.type.ToDefaultValue()));
             return (await mongoCollection.UpdateManyAsync(filterDefinition, update)).ModifiedCount > 0;
         }
+
+        public virtual async Task<List<T>> SearchAsync(Dictionary<string, object> queries)
+        {
+            var builder = Builders<T>.Filter;
+            FilterDefinition<T> filter = builder.Empty;
+
+            foreach (var query in queries)
+            {
+                var subFilter = builder.Eq(query.Key, query.Value);
+                filter = filter == builder.Empty ? subFilter : filter & subFilter;
+            }
+
+            return (await mongoCollection.FindAsync<T>(filter)).ToList();
+        }
     }
 }

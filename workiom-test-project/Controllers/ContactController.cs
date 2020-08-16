@@ -40,6 +40,34 @@ namespace workiom_test_project.Controllers
             }
         }
 
+        [HttpPost("search")]
+        public async Task<IActionResult> Search(Dictionary<string, object> queries)
+        {
+            try
+            {
+                var items = await Db.Contacts.SearchAsync(queries);
+
+                if (items != null)
+                {
+                    List<string> companyIds = new List<string>();
+                    items.ForEach(c => companyIds.AddRange(c.CompanyIds));
+                    var companies = await Db.Companies.GetByIdAsync(companyIds);
+
+                    foreach (var item in items)
+                        if (item.CompanyIds != null && item.CompanyIds.Count > 0)
+                            item.Companies = companies.Where(c => item.CompanyIds.Contains(c.Id.ToString())).ToList();
+
+                    return Ok(items);
+                }
+
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         [HttpGet("{id:length(24)}", Name = "GetContact")]
         public async Task<IActionResult> GetContact(string id)
         {
