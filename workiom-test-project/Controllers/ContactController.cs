@@ -47,7 +47,7 @@ namespace workiom_test_project.Controllers
             {
                 var items = await Db.Contacts.SearchAsync(queries);
 
-                if (items != null)
+                if (items != null && items.Count > 0)
                 {
                     List<string> companyIds = new List<string>();
                     items.ForEach(c => companyIds.AddRange(c.CompanyIds));
